@@ -30,6 +30,16 @@ class RequestAudio:
         file.write(f'{datetime.now()}\t{self.title}\t{self.artist}\n')
         file.close()
 
+    def checkforrepeats(self, filepath):
+        try:
+            with open(filepath, 'r') as f:
+                lines = f.readlines()
+            for line in lines:
+                if line.__contains__(self.title + '\t' + self.artist + '\n'):
+                    return True
+        except FileNotFoundError:
+            return False
+
     def artist(self):
         return self.artist
 
