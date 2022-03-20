@@ -1,6 +1,7 @@
-import urllib.request
 import requests
 from pathlib import Path
+from os import path
+from pydub import AudioSegment
 
 
 class DownloadAudio:
@@ -28,3 +29,12 @@ class DownloadAudio:
 
     def path(self):
         return self.p
+
+    def mp3_to_wav(self):
+        if self.p is None:
+            print("You need to download the audio before you format it")
+            pass
+
+        audio = AudioSegment.from_mp3(self.p)
+        audio.export("wmRadio.raw", format="raw")
+        return "Audio has been formatted!"
