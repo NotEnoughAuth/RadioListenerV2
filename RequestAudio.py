@@ -9,9 +9,9 @@ class RequestAudio:
 
     def __init__(self):
         config = {
-            'host': 'identify-eu-west-1.acrcloud.com',
-            'access_key': 'a038209f5fe479215cb419a7d336ae4c',
-            'access_secret': 'ZKnFLwBj8NpEwgG5OEmRPtlKvBeuf7uNunkd3rS3',
+            'host': 'HOST_SERVER',
+            'access_key': 'ACCESS_KEY',
+            'access_secret': 'ACCESS_SECRET',
             'debug': True,
             'timeout': 10
         }

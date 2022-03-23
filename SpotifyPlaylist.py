@@ -8,15 +8,15 @@ import requests
 
 class SpotifyPlaylist:
     BASE_URL = 'https://api.spotify.com/v1/'
-    PLAYLIST_ID = '2uHhH7dnaVxZS988Ld0XSp'
-    USERNAME = 'minecraftmagic05'
+    PLAYLIST_ID = 'PLAYLIST_ID'
+    USERNAME = 'USERNAME'
     access_token = None
     headers = None
     spotifyObject = None
 
     def __init__(self):
-        CLIENT_ID = '1ab0a158c446421fa9c5d32942d7108e'
-        CLIENT_SECRET = '05fef8dacc34404c9282e50ed7800808'
+        CLIENT_ID = 'CLIENT_ID'
+        CLIENT_SECRET = 'CLIENT+SECRET'
         AUTH_URL = 'https://accounts.spotify.com/api/token'
 
         scope = ['playlist-modify', 'user-read-private']
