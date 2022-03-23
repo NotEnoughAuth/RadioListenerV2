@@ -64,4 +64,3 @@ class SpotifyPlaylist:
                     print(f'DELETED {title} BY: {artist} FROM FILE')
         except FileNotFoundError:
             print('Error File Not Found')
-            
