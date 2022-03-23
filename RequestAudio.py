@@ -6,6 +6,7 @@ import json
 class RequestAudio:
     artist = None
     title = None
+    error = False
 
     def __init__(self):
         config = {
@@ -21,14 +22,20 @@ class RequestAudio:
         data = acrcloud.recognize_by_file('wmRadio.mp3', 0)
 
         j = json.loads(data)
-
-        self.artist = (j['metadata']['music'][0]['artists'][0]['name'])
-        self.title = (j['metadata']['music'][0]['title'])
+        try:
+            self.artist = (j['metadata']['music'][0]['artists'][0]['name'])
+            self.title = (j['metadata']['music'][0]['title'])
+        except KeyError:
+            print('Error could not find song from file')
+            self.error = True
 
     def savedata(self, filepath):
-        file = open(filepath, 'a')
-        file.write(f'{datetime.now()}\t{self.title}\t{self.artist}\n')
-        file.close()
+        try:
+            file = open(filepath, 'a')
+            file.write(f'{datetime.now()}\t{self.title}\t{self.artist}\n')
+            file.close()
+        except:
+            error = True
 
     def checkforrepeats(self, filepath):
         try:

@@ -1,5 +1,5 @@
 import json
-
+import datetime
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -25,13 +25,43 @@ class SpotifyPlaylist:
         self.spotifyObject = spotipy.Spotify(auth_manager=token)
 
     def add_song(self, artist, title):
-        stupidlist = []
-        stupidlist.append(self.search_song(artist, title))
+        stupidlist = [self.search_song(artist, title)]
         print(stupidlist)
         self.spotifyObject.playlist_add_items(playlist_id=self.PLAYLIST_ID, items=stupidlist)
 
     def search_song(self, artist, title):
         print(artist + ' ' + title)
-        r = self.spotifyObject.search(q=title + ' ' + artist, type='track')
-        print(r['tracks']['items'][0]['uri'])
-        return r['tracks']['items'][0]['uri']
+        try:
+            r = self.spotifyObject.search(q=title + ' ' + artist, type='track')
+            print(r['tracks']['items'][0]['uri'])
+            return r['tracks']['items'][0]['uri']
+        except:
+            print('Error could not find spotify uri removing from file')
+
+
+    def purge_songs(self, filepath):
+        with open(filepath, 'r') as f:
+            lines = f.readlines()
+        for line in lines:
+            sections = line.split('\t')
+            songtime = datetime.datetime.strptime(sections[0], "%Y-%m-%d %H:%M:%S")
+            if songtime - datetime.datetime.now() > datetime.timedelta(1):
+                self.remove_song(sections[2], sections[1])
+            else:
+                f.write(line)
+
+    def remove_song(self, artist, title):
+        stupidlist = [self.search_song(artist, title)]
+        print(f'Removing {title} By: {artist}')
+        self.spotifyObject.playlist_remove_all_occurrences_of_items(self.PLAYLIST_ID, stupidlist)
+
+    def remove_from_file(self, artist, title, filepath):
+        try:
+            with open(filepath, 'r') as f:
+                lines = f.readlines()
+            for line in lines:
+                if line.__contains__(title + '\t' + artist + '\n'):
+                    print(f'DELETED {title} BY: {artist} FROM FILE')
+        except FileNotFoundError:
+            print('Error File Not Found')
+            
